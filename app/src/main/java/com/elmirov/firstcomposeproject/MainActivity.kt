@@ -3,7 +3,7 @@ package com.elmirov.firstcomposeproject
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
@@ -14,22 +14,17 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            UserInfo(name = "Name", age = 22)
+            TimesTable()
         }
     }
-}
 
-@Preview //Работает только с composable-функциями без параметров
-@Composable
-fun UserInfoPreview() {
-    UserInfo("NamePreview", 222)
-}
+    @Preview
+    @Composable
+    fun TimesTable() {
 
-@Composable
-fun UserInfo(name: String, age: Int) {
-    Column {
-        repeat(10) {
-            Text(text = "Hello, $name. Your age: $age")
+        Row {
+            for (i in 1..9)
+                Text(text = "$i")
         }
     }
 }
