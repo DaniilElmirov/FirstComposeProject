@@ -5,6 +5,8 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.tooling.preview.Preview
 
 class MainActivity : ComponentActivity() {
 
@@ -15,6 +17,18 @@ class MainActivity : ComponentActivity() {
             UserInfo(name = "Name", age = 22)
         }
     }
+}
+
+@Preview //Работает только с composable-функциями без параметров
+@Composable
+fun Hello() {
+    Text(text = "Hello!", color = Color.Green)
+}
+
+@Preview
+@Composable
+fun UserInfoPreview() {
+    UserInfo("NamePreview", 222)
 }
 
 @Composable
