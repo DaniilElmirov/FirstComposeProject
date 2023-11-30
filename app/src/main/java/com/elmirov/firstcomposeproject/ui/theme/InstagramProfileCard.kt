@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
@@ -38,26 +39,54 @@ fun InstagramProfileCard() {
         colors = CardDefaults.cardColors(MaterialTheme.colorScheme.background),
         border = BorderStroke(width = 1.dp, color = MaterialTheme.colorScheme.onBackground),
     ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(all = 8.dp),
-            horizontalArrangement = Arrangement.SpaceEvenly,
-            verticalAlignment = Alignment.CenterVertically,
+        Column(
+            modifier = Modifier.padding(16.dp)
         ) {
-            Image(
+            Row(
                 modifier = Modifier
-                    .size(64.dp)
-                    .clip(CircleShape)
-                    .background(Color.White)
-                    .padding(8.dp),
-                painter = painterResource(id = R.drawable.ic_instagram),
-                contentDescription = "Icon",
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceEvenly,
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Image(
+                    modifier = Modifier
+                        .size(64.dp)
+                        .clip(CircleShape)
+                        .background(Color.White)
+                        .padding(8.dp),
+                    painter = painterResource(id = R.drawable.ic_instagram),
+                    contentDescription = "Icon",
+                )
+
+                UserStatistics(value = "1234", title = "Posts")
+                UserStatistics(value = "1", title = "Followers")
+                UserStatistics(value = "64M", title = "Following")
+            }
+
+            Text(
+                text = "Instagram",
+                fontSize = 40.sp,
+                fontFamily = FontFamily.Cursive,
             )
 
-            UserStatistics(value = "1234", title = "Posts")
-            UserStatistics(value = "1", title = "Followers")
-            UserStatistics(value = "64M", title = "Following")
+            Text(
+                text = "#YoursToMake",
+                fontSize = 16.sp,
+            )
+
+            Text(
+                text = "www.адрес.com/имя_группы",
+                fontSize = 16.sp,
+            )
+
+            Button(
+                modifier = Modifier
+                    .padding(top = 8.dp),
+                shape = RoundedCornerShape(percent = 8),
+                onClick = { },
+            ) {
+                Text(text = "Follow")
+            }
         }
     }
 }
