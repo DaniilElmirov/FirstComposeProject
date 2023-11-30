@@ -42,7 +42,6 @@ class MainActivity : ComponentActivity() {
                         .background(MaterialTheme.colorScheme.background)
                 ) {
                     InstagramProfileCard()
-                    //ImageTest()
                 }
             }
         }
