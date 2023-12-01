@@ -1,6 +1,7 @@
 package com.elmirov.firstcomposeproject.ui.theme
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -9,7 +10,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.MoreVert
 import androidx.compose.material3.Card
@@ -21,7 +24,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.elmirov.firstcomposeproject.R
@@ -29,9 +34,26 @@ import com.elmirov.firstcomposeproject.R
 @Composable
 fun PostCard() {
     Card(
-        colors = CardDefaults.cardColors(MaterialTheme.colorScheme.primary)
+        modifier = Modifier.verticalScroll(rememberScrollState()),
+        colors = CardDefaults.cardColors(MaterialTheme.colorScheme.primary),
     ) {
         Header()
+
+        Text(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(8.dp),
+            text = stringResource(R.string.template_text),
+        )
+
+        Image(
+            modifier = Modifier.fillMaxWidth(),
+            painter = painterResource(id = R.drawable.post_content_image),
+            contentDescription = null,
+            contentScale = ContentScale.FillWidth,
+        )
+
+        Statistic()
     }
 }
 
@@ -74,6 +96,51 @@ private fun Header() {
             imageVector = Icons.Rounded.MoreVert,
             contentDescription = null,
             tint = MaterialTheme.colorScheme.onSecondary
+        )
+    }
+}
+
+@Composable
+private fun Statistic() {
+    Row(
+        modifier = Modifier.padding(8.dp),
+    ) {
+        Row(
+            modifier = Modifier.weight(1f),
+        ) {
+            IconWithText(iconResId = R.drawable.ic_views_count, text = "900")
+        }
+
+        Row(
+            modifier = Modifier.weight(1f),
+            horizontalArrangement = Arrangement.SpaceBetween,
+        ) {
+            IconWithText(iconResId = R.drawable.ic_share, text = "7")
+            IconWithText(iconResId = R.drawable.ic_comment, text = "8")
+            IconWithText(iconResId = R.drawable.ic_like, text = "12")
+        }
+    }
+}
+
+@Composable
+private fun IconWithText(
+    iconResId: Int,
+    text: String,
+) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Icon(
+            painter = painterResource(id = iconResId),
+            contentDescription = null,
+            tint = MaterialTheme.colorScheme.onSecondary,
+        )
+
+        Spacer(modifier = Modifier.width(4.dp))
+
+        Text(
+            text = text,
+            color = MaterialTheme.colorScheme.onSecondary,
         )
     }
 }
