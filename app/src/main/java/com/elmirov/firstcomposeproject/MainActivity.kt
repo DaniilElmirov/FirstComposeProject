@@ -7,20 +7,112 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.outlined.Delete
+import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.ModalNavigationDrawer
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            Test()
+            ScaffoldTest()
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Preview
+@Composable
+private fun ScaffoldTest() {
+    ModalNavigationDrawer(
+        drawerContent = {
+            Column {
+                Text(text = "Первый пункт")
+                Text(text = "Второй пункт")
+                Text(text = "Третий пункт")
+            }
+        }
+    ) {
+        Scaffold(
+            topBar = {
+                TopAppBar(
+                    title = {
+                        Text(text = "TopAppBar TITLE")
+                    },
+                    navigationIcon = {
+                        IconButton(onClick = { /*TODO*/ }) {
+                            Icon(
+                                Icons.Filled.Menu,
+                                contentDescription = null,
+                            )
+                        }
+                    },
+                    colors = TopAppBarDefaults.topAppBarColors(Color.Cyan),
+                )
+            },
+
+            bottomBar = {
+                NavigationBar {
+                    NavigationBarItem(
+                        selected = true,
+                        onClick = { /*TODO*/ },
+                        icon = {
+                            Icon(Icons.Filled.Favorite, contentDescription = null)
+                        },
+                        label = {
+                            Text(text = "Favorite")
+                        },
+                    )
+
+                    NavigationBarItem(
+                        selected = true,
+                        onClick = { /*TODO*/ },
+                        icon = {
+                            Icon(Icons.Outlined.Edit, contentDescription = null)
+                        },
+                        label = {
+                            Text(text = "Edit")
+                        },
+                    )
+
+                    NavigationBarItem(
+                        selected = true,
+                        onClick = { /*TODO*/ },
+                        icon = {
+                            Icon(Icons.Outlined.Delete, contentDescription = null)
+                        },
+                        label = {
+                            Text(text = "Delete")
+                        },
+                    )
+                }
+            }
+        ) {
+            Text(
+                modifier = Modifier.padding(it),
+                text = "Scaffold content",
+            )
         }
     }
 }
