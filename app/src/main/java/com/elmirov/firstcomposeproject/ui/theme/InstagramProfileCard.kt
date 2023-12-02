@@ -19,8 +19,8 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.State
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -30,13 +30,12 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.elmirov.firstcomposeproject.MainViewModel
 import com.elmirov.firstcomposeproject.R
 
 @Composable
-fun InstagramProfileCard() {
-    val isFollowed = rememberSaveable { //Не логика view слоя
-        mutableStateOf(false)
-    }
+fun InstagramProfileCard(viewModel: MainViewModel) {
+    val isFollowed: State<Boolean> = viewModel.isFollowing.observeAsState(false)
 
     Card(
         modifier = Modifier
@@ -86,7 +85,7 @@ fun InstagramProfileCard() {
             )
 
             FollowButton(isFollowed = isFollowed.value) {
-                isFollowed.value = !isFollowed.value
+                viewModel.changeFollowingStatus()
             }
         }
     }
