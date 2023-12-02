@@ -34,7 +34,7 @@ import com.elmirov.firstcomposeproject.R
 
 @Composable
 fun InstagramProfileCard() {
-    val isFollowed = rememberSaveable {
+    val isFollowed = rememberSaveable { //Не логика view слоя
         mutableStateOf(false)
     }
 
@@ -85,22 +85,33 @@ fun InstagramProfileCard() {
                 fontSize = 16.sp,
             )
 
-            Button(
-                modifier = Modifier
-                    .padding(top = 8.dp),
-                shape = RoundedCornerShape(percent = 8),
-                onClick = { isFollowed.value = !isFollowed.value }, // StateFull composable fun. Плохо, т.к. кнопка сама управляет своим состоянием
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = if (isFollowed.value) {
-                        MaterialTheme.colorScheme.primary.copy(alpha = 0.5f)
-                    } else
-                        MaterialTheme.colorScheme.primary
-                ),
-            ) {
-                val text = if (isFollowed.value) "Unfollow" else "Follow"
-                Text(text = text)
+            FollowButton(isFollowed = isFollowed.value) {
+                isFollowed.value = !isFollowed.value
             }
         }
+    }
+}
+
+//State less composable fun. Не хранит внутри себя состояние и не управляет им
+@Composable
+private fun FollowButton(
+    isFollowed: Boolean,
+    clickListener: () -> Unit,
+) {
+    Button(
+        modifier = Modifier
+            .padding(top = 8.dp),
+        shape = RoundedCornerShape(percent = 8),
+        onClick = { clickListener() },
+        colors = ButtonDefaults.buttonColors(
+            containerColor = if (isFollowed) {
+                MaterialTheme.colorScheme.primary.copy(alpha = 0.5f)
+            } else
+                MaterialTheme.colorScheme.primary
+        ),
+    ) {
+        val text = if (isFollowed) "Unfollow" else "Follow"
+        Text(text = text)
     }
 }
 
