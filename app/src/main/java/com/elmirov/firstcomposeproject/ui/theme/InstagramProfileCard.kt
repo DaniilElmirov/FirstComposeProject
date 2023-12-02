@@ -35,7 +35,7 @@ import com.elmirov.firstcomposeproject.R
 
 @Composable
 fun InstagramProfileCard(viewModel: MainViewModel) {
-    val isFollowed: State<Boolean> = viewModel.isFollowing.observeAsState(false)
+    val isFollowed = viewModel.isFollowing.observeAsState(false)
 
     Card(
         modifier = Modifier
@@ -84,7 +84,7 @@ fun InstagramProfileCard(viewModel: MainViewModel) {
                 fontSize = 16.sp,
             )
 
-            FollowButton(isFollowed = isFollowed.value) {
+            FollowButton(isFollowed = isFollowed) {
                 viewModel.changeFollowingStatus()
             }
         }
@@ -94,7 +94,7 @@ fun InstagramProfileCard(viewModel: MainViewModel) {
 //State less composable fun. Не хранит внутри себя состояние и не управляет им
 @Composable
 private fun FollowButton(
-    isFollowed: Boolean,
+    isFollowed: State<Boolean>,
     clickListener: () -> Unit,
 ) {
     Button(
@@ -103,13 +103,13 @@ private fun FollowButton(
         shape = RoundedCornerShape(percent = 8),
         onClick = { clickListener() },
         colors = ButtonDefaults.buttonColors(
-            containerColor = if (isFollowed) {
+            containerColor = if (isFollowed.value) {
                 MaterialTheme.colorScheme.primary.copy(alpha = 0.5f)
             } else
                 MaterialTheme.colorScheme.primary
         ),
     ) {
-        val text = if (isFollowed) "Unfollow" else "Follow"
+        val text = if (isFollowed.value) "Unfollow" else "Follow"
         Text(text = text)
     }
 }
