@@ -1,5 +1,6 @@
 package com.elmirov.firstcomposeproject.ui.theme
 
+import android.util.Log
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Favorite
@@ -17,6 +18,7 @@ import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
@@ -30,7 +32,13 @@ import kotlinx.coroutines.launch
 @Preview
 @Composable
 fun MainScreen() {
-    val snackbarHostState = SnackbarHostState()
+    val snackbarHostState = remember {
+        SnackbarHostState()
+    }
+    Log.d(
+        "MainScreen",
+        snackbarHostState.currentSnackbarData.toString()
+    ) //без remember{} вызывает рекомпозицию
     val scope = rememberCoroutineScope()
     val fabIsVisible = rememberSaveable {
         mutableStateOf(true)
@@ -51,7 +59,7 @@ fun MainScreen() {
                                 duration = SnackbarDuration.Long,
                             )
 
-                            if(action == SnackbarResult.ActionPerformed)
+                            if (action == SnackbarResult.ActionPerformed)
                                 fabIsVisible.value = false
                         }
                     },
