@@ -19,12 +19,8 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -39,14 +35,7 @@ import com.elmirov.firstcomposeproject.R
 
 @Composable
 fun InstagramProfileCard(viewModel: MainViewModel) {
-    val isFollowed: State<Boolean> = viewModel.isFollowing.observeAsState(false)
-
-    var a: Int by remember {
-        mutableStateOf(5)
-    }
-
-    val b: Int = a
-    a = 10 //Рекомпозиция произойдейт, т.к. вызовется метод setValue(), который устанавливает значение свойства value
+    val isFollowed by viewModel.isFollowing.observeAsState(false)
 
     Card(
         modifier = Modifier
@@ -95,7 +84,8 @@ fun InstagramProfileCard(viewModel: MainViewModel) {
                 fontSize = 16.sp,
             )
 
-            FollowButton(isFollowed = isFollowed.value) {
+            //При рекомпозиции Card будет перерисовываться, т.к. зависит от стейта
+            FollowButton(isFollowed = isFollowed) {
                 viewModel.changeFollowingStatus()
             }
         }
