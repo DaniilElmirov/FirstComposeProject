@@ -13,6 +13,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
+import com.elmirov.firstcomposeproject.ui.theme.FirstComposeProjectTheme
 import com.elmirov.firstcomposeproject.ui.theme.InstagramProfileCard
 
 class MainActivity : ComponentActivity() {
@@ -23,7 +24,9 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            LazyColumnTest(viewModel = viewModel)
+            FirstComposeProjectTheme {
+                LazyColumnTest(viewModel = viewModel)
+            }
         }
     }
 }
@@ -49,27 +52,5 @@ private fun LazyColumnTest(
                 )
             }
         }
-
-//        LazyRow {
-//            items(models.value) { model ->
-//                InstagramProfileCard(
-//                    model = model,
-//                    onFollowButtonClickListener = {
-//                        viewModel.changeFollowingStatus(it)
-//                    },
-//                )
-//            }
-//        }
-
-//        LazyVerticalGrid(columns = GridCells.Fixed(2)) {
-//            items(models.value) { model ->
-//                InstagramProfileCard(
-//                    model = model,
-//                    onFollowButtonClickListener = {
-//                        viewModel.changeFollowingStatus(it)
-//                    },
-//                )
-//            }
-//        }
     }
 }

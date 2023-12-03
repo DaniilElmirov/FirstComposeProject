@@ -109,7 +109,10 @@ private fun FollowButton(
         ),
     ) {
         val text = if (isFollowed) "Unfollow" else "Follow"
-        Text(text = text)
+        Text(
+            text = text,
+            color = MaterialTheme.colorScheme.onSecondary,
+        )
     }
 }
 
