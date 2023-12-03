@@ -7,16 +7,12 @@ import androidx.activity.viewModels
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Done
-import androidx.compose.material3.Icon
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.style.TextAlign
 import com.elmirov.firstcomposeproject.ui.theme.InstagramProfileCard
 
 class MainActivity : ComponentActivity() {
@@ -27,16 +23,6 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-//            FirstComposeProjectTheme {
-//                Box(
-//                    modifier = Modifier
-//                        .fillMaxSize()
-//                        .background(MaterialTheme.colorScheme.background)
-//                ) {
-//                    InstagramProfileCard(viewModel)
-//                }
-//            }
-
             LazyColumnTest(viewModel = viewModel)
         }
     }
@@ -51,30 +37,39 @@ private fun LazyColumnTest(
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
     ) {
+        val models = viewModel.models.observeAsState(listOf())
+
         LazyColumn {
-            item {
-                Text(
-                    modifier = Modifier.fillMaxWidth(),
-                    textAlign = TextAlign.Center,
-                    text = "Какой-то заголовок",
+            items(models.value) { model ->
+                InstagramProfileCard(
+                    model = model,
+                    onFollowButtonClickListener = {
+                        viewModel.changeFollowingStatus(it)
+                    },
                 )
-            }
-
-            items(10) {
-                InstagramProfileCard(viewModel = viewModel)
-            }
-
-            item {
-                Icon(
-                    modifier = Modifier.fillMaxWidth(),
-                    imageVector = Icons.Outlined.Done,
-                    contentDescription = null,
-                )
-            }
-
-            items(200) {
-                InstagramProfileCard(viewModel = viewModel)
             }
         }
+
+//        LazyRow {
+//            items(models.value) { model ->
+//                InstagramProfileCard(
+//                    model = model,
+//                    onFollowButtonClickListener = {
+//                        viewModel.changeFollowingStatus(it)
+//                    },
+//                )
+//            }
+//        }
+
+//        LazyVerticalGrid(columns = GridCells.Fixed(2)) {
+//            items(models.value) { model ->
+//                InstagramProfileCard(
+//                    model = model,
+//                    onFollowButtonClickListener = {
+//                        viewModel.changeFollowingStatus(it)
+//                    },
+//                )
+//            }
+//        }
     }
 }

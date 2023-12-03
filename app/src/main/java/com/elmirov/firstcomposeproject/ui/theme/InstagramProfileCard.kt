@@ -19,8 +19,6 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.State
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -30,13 +28,14 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.elmirov.firstcomposeproject.MainViewModel
+import com.elmirov.firstcomposeproject.InstagramModel
 import com.elmirov.firstcomposeproject.R
 
 @Composable
-fun InstagramProfileCard(viewModel: MainViewModel) {
-    val isFollowed = viewModel.isFollowing.observeAsState(false)
-
+fun InstagramProfileCard(
+    model: InstagramModel,
+    onFollowButtonClickListener: (InstagramModel) -> Unit,
+) {
     Card(
         modifier = Modifier
             .padding(8.dp),
@@ -69,13 +68,13 @@ fun InstagramProfileCard(viewModel: MainViewModel) {
             }
 
             Text(
-                text = "Instagram",
+                text = "Instagram ${model.id}",
                 fontSize = 40.sp,
                 fontFamily = FontFamily.Cursive,
             )
 
             Text(
-                text = "#YoursToMake",
+                text = "#${model.title}",
                 fontSize = 16.sp,
             )
 
@@ -84,8 +83,8 @@ fun InstagramProfileCard(viewModel: MainViewModel) {
                 fontSize = 16.sp,
             )
 
-            FollowButton(isFollowed = isFollowed) {
-                viewModel.changeFollowingStatus()
+            FollowButton(isFollowed = model.isFollowed) {
+                onFollowButtonClickListener(model)
             }
         }
     }
@@ -94,7 +93,7 @@ fun InstagramProfileCard(viewModel: MainViewModel) {
 //State less composable fun. Не хранит внутри себя состояние и не управляет им
 @Composable
 private fun FollowButton(
-    isFollowed: State<Boolean>,
+    isFollowed: Boolean,
     clickListener: () -> Unit,
 ) {
     Button(
@@ -103,13 +102,13 @@ private fun FollowButton(
         shape = RoundedCornerShape(percent = 8),
         onClick = { clickListener() },
         colors = ButtonDefaults.buttonColors(
-            containerColor = if (isFollowed.value) {
+            containerColor = if (isFollowed) {
                 MaterialTheme.colorScheme.primary.copy(alpha = 0.5f)
             } else
                 MaterialTheme.colorScheme.primary
         ),
     ) {
-        val text = if (isFollowed.value) "Unfollow" else "Follow"
+        val text = if (isFollowed) "Unfollow" else "Follow"
         Text(text = text)
     }
 }
